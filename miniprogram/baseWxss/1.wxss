@@ -1,0 +1,67 @@
+.title1 {
+    font-size: 40rpx;
+    color: #FFFFFF;
+    text-align: center;
+    line-height: 1.2;
+    width: 480rpx;
+}
+
+.step {
+    border: 1rpx solid #FFFFFF;
+    border-radius: 4rpx;
+    width: 130rpx;
+    height: 50rpx;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 32rpx;
+    margin-left: 76rpx;
+    margin-bottom: 30rpx;
+}
+
+.tip {
+    font-size: 50rpx;
+    color: #fff;
+    margin-left: 76rpx;
+    margin-bottom: 30rpx;
+}
+
+.tip text {
+    color: #ff9800;
+}
+
+.guide-mark {
+    position: fixed;
+    background: rgba(0,0,0,0.8);
+    width: 100%;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 999;
+}
+
+.guide-mark .close {
+    width: 60rpx;
+    height: 60rpx;
+    position: absolute;
+    top: 40rpx;
+    left: 40rpx;
+    z-index: 9999;
+}
+
+.guide-mark .jt {
+    height: 338rpx;
+    width: 251rpx;
+    position: absolute;
+    top: 10rpx;
+    right: 62rpx;
+}

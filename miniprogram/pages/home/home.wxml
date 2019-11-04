@@ -1,0 +1,24 @@
+<view>
+    <view class="page-video">
+        <video autoplay="{{true}}" class="vplay" controls="true" id="myVideo" poster="{{vedio.coverimg}}" showCenterPlayBtn="false" src="{{vedio.resource_add}}">
+        </video>
+        <view class="video_info">
+            <view class="user-box">
+                <view bindtap="tap_user" class="user-top" data-wpytap_user-a="{{u.uid}}">
+                    <image class="user-avatar" src="{{vedio.avatar}}"></image>
+                    <view class="user-info">
+                        <view class="name">{{vedio.name}}</view>
+                    </view>
+                </view>
+                <view class="share">
+                    <button class="share" openType="share">
+                        <view class="txt">分享</view>
+                        <image src="../../images/icon_weixin.png"></image>
+                    </button>
+                    <view class="dot" wx:if="{{!shareState}}"></view>
+                </view>
+            </view>
+            <view class="title">{{vedio.title}}</view>
+        </view>
+    </view>
+</view>

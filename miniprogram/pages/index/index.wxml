@@ -1,0 +1,45 @@
+<view class="page">
+  <view class="page__bd">
+    <view id="list">
+      <block wx:for="{{list}}" wx:key="unique">
+        <view class="item ad" wx:if="{{item.type=='ad'&&item.stype==3}}">
+          <ad unitId="{{item.unitid}}"></ad>
+        </view>
+        <view class="item" wx:if="{{item.type!='ad'}}">
+          <view class="weui-flex">
+            <view class="weui-flex__item">
+              <form bindsubmit="formSubmit" class="form" data-com-index="{{index}}" reportSubmit="true">
+                <button class="sub_btn" formType="submit" plain="true">
+                  <view class="index">
+                    <image class="index_img" mode="aspectFill" src="{{item.coverimg}}"></image>
+                    <view class="index_title">{{item.title}}</view>
+                    <view class="index_play">
+                      <image class="index_play_btn" src="../../images/icon_play.png"></image>
+                    </view>
+                    <view class="index_b_bar">
+                      <view class="index_hits">
+                        <text class="index_hits_text">{{item.hits_total}}</text> 人气
+                      </view>
+                      <view class="index_time">{{item.duration}}</view>
+                    </view>
+                  </view>
+                </button>
+              </form>
+              <view class="index_personal">
+                <image bindtap="personal_tap" class="index_personal_img" data-wpypersonal_tap-a="{{item.uid}}" src="{{item.avatar}}"></image>
+                <view bindtap="personal_tap" class="index_personal_name" data-wpypersonal_tap-a="{{item.uid}}">{{item.name}}</view>
+                <view class="share">
+                  <button class="share" id="{{index}}" openType="share">
+                    <view class="txt">分享</view>
+                    <image src="../images/icon_weixin.png"></image>
+                  </button>
+                  <view class="dot" wx:if="{{!item.shareState}}"></view>
+                </view>
+              </view>
+            </view>
+          </view>
+        </view>
+      </block>
+    </view>
+  </view>
+</view>
