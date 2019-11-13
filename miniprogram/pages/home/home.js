@@ -1,5 +1,7 @@
 // miniprogram/pages/home.js
 const db = wx.cloud.database();
+var userInfo;
+var id;
 Page({
 
   /**
@@ -7,7 +9,7 @@ Page({
    */
   data: {
     vedio: {},
-    comments:{}
+    list: []
   },
 
   onPlay: function(options) {},
@@ -17,7 +19,7 @@ Page({
    */
   onLoad: function(options) {
     var that = this;
-    var id = options.id;
+    id = options.id;
     db.collection('videos')
       .where({
         _id: id
@@ -32,15 +34,59 @@ Page({
           console.log(res)
         }
       });
+    this.refreshComment();
+  },
+  submitForm(e) {
+    var that = this;
+    // 必须是在用户已经授权的情况下调用
+    wx.getUserInfo({ //TODMOMM 授权
+      success: function(res) {
+        userInfo = res.userInfo
+        var form = e.detail.value;
+        if (form.comment == "") {
+          // util.showLog('请输入评论'); TODOMM  弹框模块
+          wx.showToast({
+            title: "请输入评论"
+          })
+          return;
+        }
+        // 提交评论
+        db.collection('fish_comment').add({
+          // data 字段表示需新增的 JSON 数据
+          data: {
+            // "_id": "abc25dd1-7977-431b-99f2-07007f1c2fe1",
+            video_id: id,
+            user_id: "mm",
+            comment: form.comment,
+            create_time: new Date(),
+            user_name: userInfo.nickName,
+            user_photo: userInfo.avatarUrl
+          },
+          success: function(res) {
+            form.comment = "";
+            // res 是一个对象，其中有 _id 字段标记刚创建的记录的 id
+            wx.showToast({
+              title: "发表评论成功"
+            });
+            this.refreshComment();
+          },
+          fail: console.error
+        });
+      }
+    })
+  },
+  refreshComment() {
+    console.log(9);
+    var that = this;
     db.collection('fish_comment')
       .where({
         video_id: id
       })
       .get({
         success: function(res) {
-          console.log('res——co'+res)
+          // console.log('res——co'+res.length)
           that.setData({
-            comments: res,
+            list: res.data, //TODOMM 根据user_id关联查询用户信息
           })
         },
         fail: function(res) {
@@ -48,7 +94,6 @@ Page({
         }
       });
   },
-
   /**
    * 生命周期函数--监听页面初次渲染完成
    */

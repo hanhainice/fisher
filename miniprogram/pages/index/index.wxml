@@ -31,7 +31,7 @@
                 <view class="share">
                   <button class="share" id="{{index}}" openType="share">
                     <view class="txt">分享</view>
-                    <image src="../images/icon_weixin.png"></image>
+                    <image src="../../images/icon_weixin.png"></image>
                   </button>
                   <view class="dot" wx:if="{{!item.shareState}}"></view>
                 </view>
