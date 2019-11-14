@@ -66,7 +66,7 @@
         <button class="cancel" bindtap="cancleReply">取消回复</button>
       </view> -->
       <view class="replyinfo2">
-        <textarea placeholder-class="input_null" fixed="true" maxlength="-1" show-confirm-bar="false" cursor-spacing="15" auto-height="true" placeholder="请输入评论" name="comment"></textarea>
+        <textarea value="{{commentContent}}" placeholder-class="input_null" fixed="true" maxlength="-1" show-confirm-bar="false" cursor-spacing="15" auto-height="true" placeholder="请输入评论" name="comment"></textarea>
         <button form-type="submit" class="submit">发送</button>
       </view>
     </view>

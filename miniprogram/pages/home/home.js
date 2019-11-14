@@ -9,7 +9,8 @@ Page({
    */
   data: {
     vedio: {},
-    list: []
+    list: [],
+    commentContent:''
   },
 
   onPlay: function(options) {},
@@ -63,12 +64,15 @@ Page({
             user_photo: userInfo.avatarUrl
           },
           success: function(res) {
-            form.comment = "";
+            e.detail.value.comment = "";
+            that.setData({
+              commentContent: ''
+            });
+            that.refreshComment();
             // res 是一个对象，其中有 _id 字段标记刚创建的记录的 id
             wx.showToast({
               title: "发表评论成功"
             });
-            this.refreshComment();
           },
           fail: console.error
         });
@@ -76,7 +80,6 @@ Page({
     })
   },
   refreshComment() {
-    console.log(9);
     var that = this;
     db.collection('fish_comment')
       .where({
@@ -84,10 +87,10 @@ Page({
       })
       .get({
         success: function(res) {
-          // console.log('res——co'+res.length)
           that.setData({
-            list: res.data, //TODOMM 根据user_id关联查询用户信息
+            list: res.data, //TODOMM 根据user_id关联查询用户信息；微信UserInfo里没有userid?
           })
+          console.log(data.list);
         },
         fail: function(res) {
           console.log(res)
