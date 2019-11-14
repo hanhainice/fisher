@@ -1403,13 +1403,9 @@
   margin: 0 3px;
   padding: 0;
 }
- 
-.pro-box .info .text .delete {
-  color: #f68135;
-  border-radius: 50rpx;
-  border: 1px solid #f68135;
-  font-size: 28 rpx;
-  width: 150rpx;
-  height: 48rpx;
-  text-align: center;
+.pro-box .info .text .delete{
+  color: #fff;
+	width: 150rpx;
+	height: 48rpx;
+	text-align: center;
 }

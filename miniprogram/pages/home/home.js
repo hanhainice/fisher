@@ -90,7 +90,6 @@ Page({
           that.setData({
             list: res.data, //TODOMM 根据user_id关联查询用户信息；微信UserInfo里没有userid?
           })
-          console.log(data.list);
         },
         fail: function(res) {
           console.log(res)

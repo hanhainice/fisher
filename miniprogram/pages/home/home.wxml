@@ -43,17 +43,18 @@
             {{item.comment}}
           </view>
         </view>
-        <!-- <view class="info">
-            <view class="text">
+        <view class="info">
+            <!-- <view class="text">
               <text decode="true">{{item.create_time}}</text>
             </view>
             <view class="text">
               <button class="sharebtn" data-commentId="{{item.id}}" data-commentUserName="{{item.user_name}}" bindtap="bindReply">回复</button>
-            </view>
-            <view wx:if="{{item.userId == userId}}" class="status text fr">
+            </view> -->
+             <!-- wx:if="{{item.userId == userId}}" -->
+            <view class="status text fr">
               <text class="delete" decode="true" bindtap='deleteComment' data-CommentId="{{item._id}}">删除</text>
             </view>
-          </view> -->
+          </view>
       </view>
     </block>
   </view>
