@@ -1403,6 +1403,9 @@
   margin: 0 3px;
   padding: 0;
 }
+.release .width-all{
+  width: 100%;
+}
 .pro-box .info .text .delete{
   color: #fff;
 	width: 150rpx;

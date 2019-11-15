@@ -10,7 +10,8 @@ Page({
   data: {
     vedio: {},
     list: [],
-    commentContent:''
+    commentContent: '',
+    isAuth: false,
   },
 
   onPlay: function(options) {},
@@ -36,6 +37,29 @@ Page({
         }
       });
     this.refreshComment();
+    wx.getSetting({
+      success(res) {
+        that.setData(
+          {
+            isAuth:true
+          }
+        );
+      }
+    })
+  },
+  bindGetUserInfo(res) {//TODOMM 测试
+    var that = this;
+    if (res.detail.userInfo) {
+      that.setData(
+        {
+          isAuth: true
+        }
+      );
+    } else {
+      wx.showToast({
+        title: "授权后才能评论哦"
+      });
+    }
   },
   submitForm(e) {
     var that = this;

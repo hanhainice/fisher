@@ -44,17 +44,17 @@
           </view>
         </view>
         <view class="info">
-            <!-- <view class="text">
+          <!-- <view class="text">
               <text decode="true">{{item.create_time}}</text>
             </view>
             <view class="text">
               <button class="sharebtn" data-commentId="{{item.id}}" data-commentUserName="{{item.user_name}}" bindtap="bindReply">回复</button>
             </view> -->
-             <!-- wx:if="{{item.userId == userId}}" -->
-            <view class="status text fr">
-              <text class="delete" decode="true" bindtap='deleteComment' data-CommentId="{{item._id}}">删除</text>
-            </view>
+          <!-- wx:if="{{item.userId == userId}}" -->
+          <view class="status text fr">
+            <text class="delete" decode="true" bindtap='deleteComment' data-CommentId="{{item._id}}">删除</text>
           </view>
+        </view>
       </view>
     </block>
   </view>
@@ -66,9 +66,12 @@
         <text class="text">{{replyUserName}}</text>
         <button class="cancel" bindtap="cancleReply">取消回复</button>
       </view> -->
-      <view class="replyinfo2">
+      <view wx:if="{{isAuth}}" class="replyinfo2">
         <textarea value="{{commentContent}}" placeholder-class="input_null" fixed="true" maxlength="-1" show-confirm-bar="false" cursor-spacing="15" auto-height="true" placeholder="请输入评论" name="comment"></textarea>
         <button form-type="submit" class="submit">发送</button>
+      </view>
+      <view wx:if="{{!isAuth}}" class="replyinfo2">
+        <button open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo" class="submit width-all">请授权后评论</button>
       </view>
     </view>
   </form>
