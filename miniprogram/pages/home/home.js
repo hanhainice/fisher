@@ -139,7 +139,7 @@ Page({
     const commentId = e.target.dataset.commentid;
     console.log(commentId);
     wx.cloud.callFunction({
-      name: 'dbDel',
+      name: 'dbDelete',
       data: {
         _id: commentId,
         collection: 'fish_comment'
