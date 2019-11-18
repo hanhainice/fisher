@@ -12,6 +12,7 @@ Page({
     list: [],
     commentContent: '',
     isAuth: false,
+    userId: null,
   },
 
   onPlay: function(options) {},
@@ -39,22 +40,36 @@ Page({
     this.refreshComment();
     wx.getSetting({
       success(res) {
-        that.setData(
-          {
-            isAuth:true
-          }
-        );
+        if (res.authSetting['scope.userInfo']) {
+          that.setData({
+            isAuth: true
+          });
+          wx.cloud.callFunction({
+            name: 'login',
+            data: {
+              weRunData: wx.cloud.CloudID(res.cloudID), // 这个 CloudID 值到云函数端会被替换
+              obj: {
+                shareInfo: wx.cloud.CloudID('yyy'), // 非顶层字段的 CloudID 不会被替换，会原样字符串展示
+              }
+            },
+            success: function(res) {
+              const userId = res.result.userInfo.openId;
+              that.setData({
+                userId: userId
+              });
+            },
+            fail: console.error
+          })
+        }
       }
     })
   },
-  bindGetUserInfo(res) {//TODOMM 测试
+  bindGetUserInfo(res) {
     var that = this;
     if (res.detail.userInfo) {
-      that.setData(
-        {
-          isAuth: true
-        }
-      );
+      that.setData({
+        isAuth: true
+      });
     } else {
       wx.showToast({
         title: "授权后才能评论哦"
@@ -64,8 +79,9 @@ Page({
   submitForm(e) {
     var that = this;
     // 必须是在用户已经授权的情况下调用
-    wx.getUserInfo({ //TODMOMM 授权
+    wx.getUserInfo({
       success: function(res) {
+        console.log(res);
         userInfo = res.userInfo
         var form = e.detail.value;
         if (form.comment == "") {
@@ -75,32 +91,66 @@ Page({
           })
           return;
         }
-        // 提交评论
-        db.collection('fish_comment').add({
-          // data 字段表示需新增的 JSON 数据
+        var userId;
+        wx.cloud.callFunction({
+          name: 'login',
           data: {
-            // "_id": "abc25dd1-7977-431b-99f2-07007f1c2fe1",
-            video_id: id,
-            user_id: "mm",
-            comment: form.comment,
-            create_time: new Date(),
-            user_name: userInfo.nickName,
-            user_photo: userInfo.avatarUrl
+            weRunData: wx.cloud.CloudID(res.cloudID), // 这个 CloudID 值到云函数端会被替换
+            obj: {
+              shareInfo: wx.cloud.CloudID('yyy'), // 非顶层字段的 CloudID 不会被替换，会原样字符串展示
+            }
           },
           success: function(res) {
-            e.detail.value.comment = "";
-            that.setData({
-              commentContent: ''
-            });
-            that.refreshComment();
-            // res 是一个对象，其中有 _id 字段标记刚创建的记录的 id
-            wx.showToast({
-              title: "发表评论成功"
+            console.log(res);
+            userId = res.result.weRunData.data.openId;
+            // 提交评论
+            db.collection('fish_comment').add({
+              // data 字段表示需新增的 JSON 数据
+              data: {
+                // "_id": "abc25dd1-7977-431b-99f2-07007f1c2fe1",
+                video_id: id,
+                user_id: userId,
+                comment: form.comment,
+                create_time: new Date(),
+                user_name: userInfo.nickName,
+                user_photo: userInfo.avatarUrl
+              },
+              success: function(res) {
+                e.detail.value.comment = "";
+                that.setData({
+                  commentContent: ''
+                });
+                that.refreshComment();
+                // res 是一个对象，其中有 _id 字段标记刚创建的记录的 id
+                wx.showToast({
+                  title: "发表评论成功"
+                });
+              },
+              fail: console.error
             });
           },
           fail: console.error
-        });
+        })
       }
+    })
+  },
+  deleteComment(e) {
+    console.log(e);
+    const commentId = e.target.dataset.commentid;
+    console.log(commentId);
+    wx.cloud.callFunction({
+      name: 'dbDel',
+      data: {
+        _id: commentId,
+        collection: 'fish_comment'
+      },
+      success: function(res) {
+        console.log(res);
+        wx.showToast({
+          title: "删除评论成功"
+        });
+      },
+      fail: console.error
     })
   },
   refreshComment() {
@@ -112,7 +162,7 @@ Page({
       .get({
         success: function(res) {
           that.setData({
-            list: res.data, //TODOMM 根据user_id关联查询用户信息；微信UserInfo里没有userid?
+            list: res.data,
           })
         },
         fail: function(res) {
