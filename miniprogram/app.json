@@ -1,14 +1,42 @@
 {
+  "cloud": true,
   "pages": [
+    "pages/upload/upload",
     "pages/index/index",
-    "pages/home/home"
+    "pages/home/home",
+    "pages/detail/detail"
+    
   ],
   "window": {
     "backgroundColor": "#F6F6F6",
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#F6F6F6",
     "navigationBarTitleText": "欢乐钓鱼人",
-    "navigationBarTextStyle": "black"
+    "navigationBarTextStyle": "black",
+    "onReachBottomDistance": 300
   },
-  "sitemapLocation": "sitemap.json"
+  "sitemapLocation": "sitemap.json",
+  "tabBar": {
+    "backgroundColor":"#F5F5F5",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "视频",
+        "iconPath": "images/视频-unselect.png",
+        "selectedIconPath": "images/视频-selected.png"
+      },
+      {
+        "pagePath": "pages/upload/upload",
+        "text": "上传",
+        "iconPath": "images/上传-unselect.png",
+        "selectedIconPath": "images/上传-selected.png"
+      },
+      {
+        "pagePath": "pages/index/index",
+        "text": "我的",
+        "iconPath": "images/我的-unselect.png",
+        "selectedIconPath": "images/我的-selected.png"
+      }
+    ]
+  }
 }

@@ -26,7 +26,9 @@ Page({
   onLoad: function (options) {
     var that = this;
     db.collection('videos')
-      .limit(that.data.pageNo, that.data.pageSize)
+      .orderBy('create_time', 'desc')
+      .skip(that.data.pageNo)
+      .limit(that.data.pageSize)
     .get({
         success: function (res) {
           that.setData({
@@ -76,15 +78,20 @@ Page({
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
+    console.log(123)
     var that = this;
     db.collection('videos')
-      .limit(that.data.pageNo * that.data.pageSize, that.data.pageSize)
+      .skip(that.data.pageNo * that.data.pageSize)
+      .limit(that.data.pageSize)
       .get({
         success: function (res) {
           that.setData({
-            list: that.data.list.contact(res.data),
+            list: res.data.concat(that.data.list),
             pageNo: that.data.pageNo + 1
           })
+        },
+        fail: function(res) {
+          console.log(res)
         }
       })
   },
