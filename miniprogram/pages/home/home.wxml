@@ -69,7 +69,8 @@
       <view wx:if="{{isAuth}}" class="replyinfo2">
         <textarea value="{{commentContent}}" placeholder-class="input_null" fixed="true" maxlength="-1" show-confirm-bar="false" cursor-spacing="15" auto-height="true" placeholder="请输入评论" name="comment"></textarea>
         <button form-type="submit" class="submit">发送</button>
-        <button open-type="openSetting"/>
+        <!-- <button open-type="openSetting"/> -->
+        <!-- 测试关闭权限控制 -->
       </view>
       <view wx:if="{{!isAuth}}" class="replyinfo2">
         <button open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo" class="submit width-all">请授权后评论</button>
