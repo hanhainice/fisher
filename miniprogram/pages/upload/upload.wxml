@@ -1,0 +1,36 @@
+<view class="page">
+  <view class="pagebd">
+    <view class="explain">
+      <view>
+        <text>仅支持上传钓鱼类相关视频</text>
+      </view>
+      <view>
+        <text>仅支持上传10秒-10分钟以内视频</text>
+      </view>
+    </view>
+    <view class="upload">
+      <view>
+      <image src='../../images/timg.jpeg'></image>
+      </view>
+      <view class="prew_video" wx:if="{{videoUrl}}">
+        <video style="height:170px;" bindfullscreenchange="bindVideoScreenChange" src="{{videoUrl}}"></video>
+      </view>
+      <view class="video">
+        <button type="default" bindtap="chooseVideo" hover-class="other-button-hover">添加视频</button>
+      </view>
+      <view class='prew_video' wx:if="{{imgTempFileURL}}">
+        <image style="height:170px;" src='{{imgTempFileURL}}' />
+      </view>
+      <view class="video">
+        <button type="default" bindtap="chooseImg" hover-class="other-button-hover">添加封面</button>
+      </view>
+      <view class="description">
+        <textarea placeholder="添加描述(必填)" bindinput="getTitle" value="{{title}}"></textarea>
+      </view>
+      <view class="submit">
+        <button open-type="getUserInfo" bindgetuserinfo="publish">发布</button>
+      </view>
+    </view>
+  </view>
+
+</view>
