@@ -10,7 +10,7 @@ exports.main = async (event, context) => {
   const wxContext = cloud.getWXContext()
   return await db.collection('videos').add({
     data: {
-      avatar: event.coverImg,
+      avatar: event.avatar,
       coverImg: event.coverImg,
       create_time: new Date(),
       name: event.name,

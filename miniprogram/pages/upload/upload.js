@@ -8,6 +8,7 @@ Page({
   data: {
     videoUrl:"",
     coverImg:"",
+    imgTempFileURL:"",
     title:""
   },
 
@@ -87,7 +88,7 @@ Page({
           // 成功回 调
             success: res => {
               that.setData({
-                videoUrl: tempFilePath,
+                videoUrl: res.fileID,
               })
               console.log('上传成功', res)
           },
@@ -97,7 +98,7 @@ Page({
   },
 
   chooseImg:function() {
-    let that = this
+    let that = this;
     wx.chooseImage({
       sourceType: ['album', 'camera'],
       maxDuration: 60,
@@ -111,8 +112,18 @@ Page({
           filePath: tempFilePath,
           // 成功回调
           success: res => {
+            wx.cloud.getTempFileURL({
+              fileList: [res.fileID],
+              success: res => {
+                that.setData({
+                  imgTempFileURL: res.fileList[0].tempFileURL,
+                })
+              },
+              fail: err => {
+              }
+            })
             that.setData({
-              imgUrl: tempFilePath,
+              coverImg: res.fileID,
             })
             console.log('上传成功', res)
           },
@@ -124,8 +135,36 @@ Page({
     })
   },
 
+  getTitle:function(event) {
+    var that = this;
+    that.setData({
+      title: event.detail.value
+    })
+  },
+
   publish: function() {
     var that = this;
+    if (that.data.videoUrl == '') {
+      wx.showToast({
+        title: '请上传视频',
+        icon: 'none',
+        duration: 2000
+      });
+    }
+    if (that.data.coverImg == '') {
+      wx.showToast({
+        title: '请上传封面',
+        icon: 'none',
+        duration: 2000
+      });
+    }
+    if (that.data.title == '') {
+      wx.showToast({
+        title: '请输入描述信息',
+        icon: 'none',
+        duration: 3000
+      });
+    }
     wx.getUserInfo({
       success: res => {
         wx.cloud.callFunction({
@@ -142,6 +181,12 @@ Page({
               title: '已发布，待审核',
               icon: 'success',
               duration: 3000
+            });
+            that.setData({
+              videoUrl: "",
+              coverImg: "",
+              imgTempFileURL: "",
+              title: ""
             })
           },
           fail: err => {
