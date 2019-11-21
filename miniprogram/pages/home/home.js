@@ -135,9 +135,8 @@ Page({
     })
   },
   deleteComment(e) {
-    console.log(e);
+    var that = this;
     const commentId = e.target.dataset.commentid;
-    console.log(commentId);
     wx.cloud.callFunction({
       name: 'dbDelete',
       data: {
@@ -149,6 +148,7 @@ Page({
         wx.showToast({
           title: "删除评论成功"
         });
+        that.refreshComment();
       },
       fail: console.error
     })
